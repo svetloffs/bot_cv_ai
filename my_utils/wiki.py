@@ -9,23 +9,6 @@ import skimage
 from pprint import pprint
 import numpy as np
 
-def read_wiki_images(url, show_image=False):
-    if isinstance(url, list):
-        if len(url)>3:
-            cols = 3
-            rows = len(url)//cols
-        else:
-            cols = len(url)
-            rows = 1
-    else:
-        rows = 1
-        cols = 1
-    img = skimage.io.imread(url)
-    if show_image:
-        plt.rcParams['figure.figsize'] = (3,3)
-        plt.imshow(img);
-        plt.show()
-        
 class WikiArticle(object):
     def __init__(self, title = '', language = 'ru'):
         self.title = title
@@ -46,4 +29,20 @@ class WikiArticle(object):
         self.links_images = [i for i in self.links_images if i.endswith('.jpg') or i.endswith('.png')]
         return self.links_images
         # page.split('\n')
+    def read_wiki_images(url, show_image=False):
+        if isinstance(url, list):
+            if len(url)>3:
+                cols = 3
+                rows = len(url)//cols
+            else:
+                cols = len(url)
+                rows = 1
+        else:
+            rows = 1
+            cols = 1
+        img = skimage.io.imread(url)
+        if show_image:
+            plt.rcParams['figure.figsize'] = (3,3)
+            plt.imshow(img);
+            plt.show()
 
