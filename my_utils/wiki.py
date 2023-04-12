@@ -8,42 +8,30 @@ from io import BytesIO
 import skimage
 from pprint import pprint
 import numpy as np
+import pandas as pd
+from skimage.transform import resize
 
 class WikiArticle(object):
     def __init__(self, title = '', language = 'ru'):
         self.title = title
         self.lang = language
         wiki.set_lang(self.lang)
+        
     def set_lang(self):
         wiki.set_lang(self.lang)
     
     def get_article_wiki(self):
         try:
             self.page = wiki.WikipediaPage(self.title)
-            return self.page
         except Exception as e:
+            tune_search = wiki.search(self.title)
+            print(f"Tune search:\n {tune_search}")
             print("[ERROR] Page not read! See below errors:")
             print(e)
+            return tune_search
+        return self.page
     def get_images_links(self):
         self.links_images = self.page.images
-        self.links_images = [i for i in self.links_images if i.endswith('.jpg') or i.endswith('.png')]
+        self.links_images = sorted([i for i in self.links_images if i.endswith('.jpg') or i.endswith('.png')])
         return self.links_images
         # page.split('\n')
-    def read_wiki_images(self, show_image=False):
-        if isinstance(self, list):
-            if len(self) > 3:
-                cols = 3
-                rows = len(self) // cols
-            else:
-                cols = len(self)
-                rows = 1
-        else:
-            rows = 1
-            cols = 1
-        img = skimage.io.imread(self)
-        if show_image:
-            plt.rcParams['figure.figsize'] = (3,3)
-            plt.imshow(img);
-            plt.show()
-        return img
-
