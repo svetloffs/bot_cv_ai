@@ -1,4 +1,10 @@
 /dataset/
 /models/
+/runs/
+/photo_users/
+*.pt
+*pth
 *.png
 *.jpg
+*.jpeg
+*.JPG
